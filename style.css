@@ -264,60 +264,24 @@ button {
 }
 
 .logo:hover .logo-svg {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.05) translateY(-2px);
+    filter: drop-shadow(0 8px 15px rgba(213, 180, 138, 0.4));
 }
 
-.glitch-hover:hover .logo-text {
-    animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: transparent;
+.logo-text {
     position: relative;
+    background: linear-gradient(to right, var(--text-color) 0%, var(--text-color) 45%, var(--accent) 50%, var(--text-color) 55%, var(--text-color) 100%);
+    background-size: 250% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), letter-spacing 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background-position: 0% center;
 }
 
-.glitch-hover:hover .logo-text::before,
-.glitch-hover:hover .logo-text::after {
-    content: 'Lumina.';
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.8;
-}
-
-.glitch-hover:hover .logo-text::before {
-    color: #0ff;
-    z-index: -1;
-    transform: translate(-2px, 1px);
-}
-
-.glitch-hover:hover .logo-text::after {
-    color: #f0f;
-    z-index: -2;
-    transform: translate(2px, -1px);
-}
-
-@keyframes glitch {
-    0% {
-        transform: translate(0)
-    }
-
-    20% {
-        transform: translate(-2px, 2px)
-    }
-
-    40% {
-        transform: translate(-2px, -2px)
-    }
-
-    60% {
-        transform: translate(2px, 2px)
-    }
-
-    80% {
-        transform: translate(2px, -2px)
-    }
-
-    100% {
-        transform: translate(0)
-    }
+.logo:hover .logo-text {
+    background-position: -200% center;
+    letter-spacing: 1px;
 }
 
 /* V3 Anim #3 & #4: Elastic Links & Pill */
@@ -1580,4 +1544,64 @@ button {
 #iced-straw {
     opacity: 0;
     transform: translateY(-300px) rotate(15deg);
+}
+
+/* ==== PREMIUM HERO ANIMATION ADDITIONS ==== */
+.ambient-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at center, rgba(213, 180, 138, 0.15) 0%, rgba(213, 180, 138, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform, opacity;
+}
+
+#premium-steam-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.premium-steam {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(213, 180, 138, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    will-change: transform, opacity;
+}
+
+.ambient-particle {
+    position: absolute;
+    background: rgba(213, 180, 138, 0.3);
+    border-radius: 50%;
+    will-change: transform, opacity;
+    pointer-events: none;
+    box-shadow: 0 0 4px rgba(213, 180, 138, 0.5);
+}
+
+.stagger-word {
+    display: inline-block;
+    opacity: 0;
+}
+
+.hero-cup-svg {
+    position: relative;
+    z-index: 10;
+    will-change: transform;
+}
+
+.cta-button {
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cta-button:hover {
+    box-shadow: 0 0 30px rgba(213, 180, 138, 0.4);
 }

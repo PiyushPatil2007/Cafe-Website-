@@ -447,27 +447,160 @@ window.addEventListener("scroll", () => {
 
 // ==== PAGE: HOME ====
 function initHomeLogic() {
-    // V3 Anim #7: Hero Scramble Reveal
-    const title = document.querySelector(".hero-title");
-    const text = title.dataset.text;
-    const chars = "!<>-_\\\\/[]{}—=+*^?#________";
-    let iterations = 0;
-    const interval = setInterval(() => {
-        title.innerText = text.split("").map((l, i) => {
-            if (i < iterations) return text[i];
-            return chars[Math.floor(Math.random() * chars.length)]
-        }).join("");
-        if (iterations >= text.length) { clearInterval(interval); title.style.opacity = 1; }
-        iterations += 1 / 3;
-    }, 30);
-    title.style.opacity = 1;
+    const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    gsap.fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 0.8, duration: 0.8, delay: 1 });
-    gsap.fromTo(".cta-button", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, delay: 1.2, ease: "elastic.out(1, 0.5)" });
-    gsap.fromTo(".hero-graphic", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, delay: 1 });
+    // 1. Setup Elements
+    const cup = document.querySelector(".hero-cup-svg");
+    const cupShadow = document.querySelector(".cup-shadow");
+    const steamContainer = document.getElementById("premium-steam-container");
+    const particleContainer = document.getElementById("particle-container");
+    const titleWords = document.querySelectorAll(".stagger-word");
+    const subtitle = document.querySelector(".hero-subtitle");
+    const button = document.querySelector(".cta-button");
+    const glow = document.querySelector(".ambient-glow");
 
-    // Hero Steam
-    gsap.fromTo(".steam", { y: 0, opacity: 0, scale: 0.8 }, { y: -800, opacity: 0, scale: 2, duration: 4, stagger: 1.2, repeat: -1, ease: "power1.inOut", keyframes: { "50%": { opacity: 0.6 } } });
+    // Pre-set states
+    if (cup) gsap.set(cup, { opacity: 0, scale: 0.95, y: 20 });
+    if (titleWords) gsap.set(titleWords, { opacity: 0, y: 20 });
+    if (subtitle) gsap.set(subtitle, { opacity: 0, y: 20 });
+    if (button) gsap.set(button, { opacity: 0, scale: 0.95 });
+    if (glow) gsap.set(glow, { opacity: 0, scale: 0.8 });
+
+    // 2. Master Cinematic Timeline
+    const masterTl = gsap.timeline();
+
+    if (glow) masterTl.to(glow, { opacity: 1, scale: 1, duration: 2, ease: "power2.inOut" }, 0);
+    if (cup) masterTl.to(cup, { opacity: 1, y: 0, scale: 1, duration: 1.5, ease: "power3.out" }, 0.5);
+    if (titleWords.length) masterTl.to(titleWords, { opacity: 1, y: 0, duration: 1.2, stagger: 0.2, ease: "power3.out" }, 1);
+    if (subtitle) masterTl.to(subtitle, { opacity: 0.8, y: 0, duration: 1, ease: "power2.out" }, 1.6);
+    if (button) masterTl.to(button, { opacity: 1, scale: 1, duration: 1, ease: "elastic.out(1, 0.5)", onComplete: initIdleBreathing }, 2);
+
+    // 3. Floating Animation Sync (Cup & Shadow)
+    if (!isReducedMotion && cup) {
+        gsap.to(cup, {
+            y: "-=15",
+            rotation: "1.5",
+            duration: 4,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inOut",
+            delay: 2 // Start after intro
+        });
+
+        if (cupShadow) {
+            gsap.to(cupShadow, {
+                scale: 0.85,
+                opacity: 0.15,
+                duration: 4,
+                yoyo: true,
+                repeat: -1,
+                ease: "sine.inOut",
+                delay: 2,
+                transformOrigin: "center center"
+            });
+        }
+    }
+
+    // 4. Premium Steam System
+    if (!isReducedMotion && steamContainer) {
+        const steamCount = isTouchDevice ? 3 : 6;
+        for (let i = 0; i < steamCount; i++) {
+            createSteamParticle(steamContainer, i);
+        }
+    }
+
+    // 5. Ambient Particles
+    if (!isReducedMotion && particleContainer) {
+        const particleCount = isTouchDevice ? 10 : 25;
+        for (let i = 0; i < particleCount; i++) {
+            createAmbientParticle(particleContainer);
+        }
+    }
+
+    // 6. Parallax & Cursor Interactions
+    if (!isTouchDevice && !isReducedMotion && cup) {
+        const xTo = gsap.quickTo(cup, "x", { duration: 0.5, ease: "power3.out" });
+        const yTo = gsap.quickTo(cup, "y", { duration: 0.5, ease: "power3.out" });
+        const rotTo = gsap.quickTo(cup, "rotation", { duration: 0.5, ease: "power3.out" });
+
+        window.addEventListener("mousemove", (e) => {
+            const normX = (e.clientX / window.innerWidth) - 0.5;
+            const normY = (e.clientY / window.innerHeight) - 0.5;
+
+            // Cup follows cursor slightly
+            xTo(normX * 30);
+            yTo(normY * 30);
+            rotTo(normX * 4); // Max 2 degrees rotation
+
+            // Parallax Depth Layers
+            gsap.to(".hero-title", { x: normX * -15, y: normY * -15, duration: 1 });
+            if (steamContainer) gsap.to(steamContainer, { x: normX * 45, y: normY * 45, duration: 1.5 });
+            if (particleContainer) gsap.to(particleContainer, { x: normX * -25, y: normY * -25, duration: 1 });
+        }, { passive: true });
+    }
+
+    // Helper functions
+    function initIdleBreathing() {
+        if (!button) return;
+        gsap.to(button, {
+            scale: 1.02,
+            duration: 2.5,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inOut"
+        });
+    }
+
+    function createSteamParticle(container, index) {
+        const steam = document.createElement("div");
+        steam.classList.add("premium-steam");
+        // Randomize size between 100px and 200px
+        const size = 100 + Math.random() * 100;
+        steam.style.width = `${size}px`;
+        steam.style.height = `${size}px`;
+        // Position relative to cup area
+        steam.style.left = `${40 + Math.random() * 20}%`;
+        steam.style.top = `60%`;
+        container.appendChild(steam);
+
+        gsap.fromTo(steam, 
+            { y: 0, x: 0, opacity: 0, scale: 0.5, rotation: Math.random() * 360 },
+            {
+                y: -300 - Math.random() * 200,
+                x: (Math.random() - 0.5) * 100,
+                opacity: 0, // Starts at 0, peaks, goes to 0
+                scale: 1.5 + Math.random(),
+                rotation: "+=45",
+                duration: 6 + Math.random() * 4,
+                repeat: -1,
+                delay: index * 1.5,
+                ease: "power1.inOut",
+                keyframes: {
+                    "30%": { opacity: 0.6 + Math.random() * 0.4 },
+                    "70%": { opacity: 0.3 }
+                }
+            }
+        );
+    }
+
+    function createAmbientParticle(container) {
+        const particle = document.createElement("div");
+        particle.classList.add("ambient-particle");
+        particle.style.left = `${Math.random() * 100}vw`;
+        particle.style.top = `${Math.random() * 100}vh`;
+        container.appendChild(particle);
+
+        gsap.to(particle, {
+            y: `-=${50 + Math.random() * 100}`,
+            x: `+=${(Math.random() - 0.5) * 50}`,
+            opacity: Math.random() * 0.5 + 0.2,
+            duration: 10 + Math.random() * 10,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: Math.random() * -10
+        });
+    }
 
     // Story Parallax
     gsap.to(".story-image", { yPercent: -20, ease: "none", scrollTrigger: { trigger: ".story-image-wrapper", scrub: true } });
