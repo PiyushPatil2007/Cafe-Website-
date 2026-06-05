@@ -1480,3 +1480,104 @@ button {
         display: none;
     }
 }
+
+/* =========================================
+   ANIMATION INTEGRATION STYLES
+   ========================================= */
+
+/* 1. Takeout Snap Checkout (Cart Panel) */
+.checkout-takeout-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+}
+
+[data-theme="light"] .checkout-takeout-container {
+    background: rgba(245, 245, 240, 0.95);
+}
+
+/* No CSS transforms on takeout elements — JS handles all initial states */
+
+/* 2. Signature Pour (Home Page) */
+.signature-section {
+    padding: 10rem 10%;
+    background: var(--bg-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.signature-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: var(--accent);
+    margin-bottom: 5rem;
+    text-align: center;
+}
+
+.signature-svg-container {
+    width: 300px;
+    height: 400px;
+    position: relative;
+}
+
+#sig-coffee-stream {
+    transform-origin: top center;
+    transform: scaleY(0);
+}
+
+#sig-whip {
+    transform-origin: center 80px;
+    transform: scale(0);
+}
+
+#sig-straw {
+    transform: translateY(-150px);
+    opacity: 0;
+}
+
+/* 3. Iced Coffee Splash (Customizer) */
+.temp-toggle-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.temp-btn {
+    padding: 1rem;
+    background: var(--secondary-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border-radius: 12px;
+    flex: 1;
+    text-align: center;
+    transition: 0.3s;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.temp-btn.active {
+    background: var(--accent);
+    color: var(--bg-color);
+    border-color: var(--accent);
+}
+
+.ice-cube {
+    opacity: 0;
+    transform: translateY(-300px);
+}
+
+#iced-straw {
+    opacity: 0;
+    transform: translateY(-300px) rotate(15deg);
+}

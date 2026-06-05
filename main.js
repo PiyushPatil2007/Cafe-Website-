@@ -290,13 +290,65 @@ function initCart() {
         if (qtyDownBtn) { cart[qtyDownBtn.dataset.index].qty--; if (cart[qtyDownBtn.dataset.index].qty <= 0) cart.splice(qtyDownBtn.dataset.index, 1); saveAndRender(); }
         if (clearCartBtn) { cart = []; saveAndRender(); }
 
-        // V3 Anim #30: Confetti Explosion
+        // V3 Anim #30: Confetti Explosion & New Takeout Checkout Animation
         if (checkoutBtn && cart.length > 0) {
-            triggerConfetti();
-            cart = [];
-            checkoutBtn.innerText = "Order Placed! 🎉";
-            saveAndRender(false);
-            setTimeout(() => checkoutBtn.innerText = "Checkout", 3000);
+            // Takeout Snap Checkout Animation (Fixed)
+            const takeoutOverlay = document.getElementById("checkout-takeout-container");
+            const takeoutCupBody = document.getElementById("takeout-cup-body");
+            const takeoutShadow = document.getElementById("takeout-shadow");
+            const takeoutSleeve = document.getElementById("takeout-sleeve");
+            const takeoutLid = document.getElementById("takeout-lid");
+            const takeoutStampRing = document.getElementById("takeout-stamp-ring");
+            const takeoutCheckmark = document.getElementById("takeout-checkmark");
+            
+            if (!takeoutOverlay || !takeoutCupBody) {
+                // Fallback: just do confetti if SVG elements missing
+                cart = []; saveAndRender(false);
+                checkoutBtn.innerText = "Order Placed! 🎉";
+                triggerConfetti();
+                setTimeout(() => { checkoutBtn.innerText = "Checkout"; }, 3000);
+                return;
+            }
+            
+            checkoutBtn.innerText = "Preparing...";
+            
+            // Reset ALL elements to their hidden starting positions via JS
+            gsap.set(takeoutCupBody, { scale: 0, transformOrigin: "100px 295px" });
+            gsap.set(takeoutShadow, { opacity: 0 });
+            gsap.set(takeoutSleeve, { scaleX: 0, transformOrigin: "center center" });
+            gsap.set(takeoutLid, { y: -300, opacity: 0 });
+            gsap.set(takeoutStampRing, { scale: 0, opacity: 0, transformOrigin: "100px 165px" });
+            gsap.set(takeoutCheckmark, { attr: { "stroke-dasharray": 100, "stroke-dashoffset": 100 } });
+            
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    cart = [];
+                    saveAndRender(false);
+                    checkoutBtn.innerText = "Order Placed! 🎉";
+                    triggerConfetti();
+                    setTimeout(() => {
+                        gsap.to(takeoutOverlay, { opacity: 0, pointerEvents: "none", duration: 0.5 });
+                        checkoutBtn.innerText = "Checkout";
+                    }, 3000);
+                }
+            });
+            
+            // Animate sequence
+            tl.to(takeoutOverlay, { opacity: 1, pointerEvents: "auto", duration: 0.3 })
+              // Cup pops up from bottom
+              .to(takeoutCupBody, { scale: 1, duration: 0.6, ease: "back.out(1.5)" })
+              .to(takeoutShadow, { opacity: 1, duration: 0.4 }, "<")
+              // Sleeve wraps on
+              .to(takeoutSleeve, { scaleX: 1, duration: 0.4, ease: "back.out(1.2)" }, "-=0.1")
+              // Lid drops fast
+              .to(takeoutLid, { y: 0, opacity: 1, duration: 0.25, ease: "power4.in" })
+              // Thud squish
+              .to(takeoutCupBody, { scaleY: 0.92, scaleX: 1.06, duration: 0.08 })
+              .to(takeoutCupBody, { scaleY: 1, scaleX: 1, duration: 0.15, ease: "elastic.out(1, 0.4)" })
+              // Stamp ring pops
+              .to(takeoutStampRing, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, "+=0.1")
+              // Checkmark draws
+              .to(takeoutCheckmark, { attr: { "stroke-dashoffset": 0 }, duration: 0.4, ease: "power2.out" }, "-=0.15");
         }
     });
 
@@ -435,6 +487,29 @@ function initHomeLogic() {
         });
         ScrollTrigger.addEventListener("scrollEnd", () => gsap.to(".momentum-skew", { skewX: 0, duration: 0.5 }));
     }
+
+    // New: Signature Pour Animation (Redesign)
+    if (document.getElementById("signature-section")) {
+        const sigTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#signature-section",
+                start: "top 60%",
+                toggleActions: "play none none reverse"
+            }
+        });
+        
+        sigTl.to("#sig-coffee-stream", { scaleY: 1, duration: 0.6, ease: "power1.in" })
+             // Liquid rises by translating Y up (-160px from y=240 to y=80)
+             .to(["#sig-coffee-liquid", "#sig-coffee-surface"], { y: -160, duration: 2, ease: "power1.inOut" }, "-=0.1")
+             // Splash ring ripples while pouring
+             .to("#sig-splash", { rx: 25, ry: 5, opacity: 0.6, duration: 0.3, yoyo: true, repeat: 5, ease: "power1.out" }, "<0.2")
+             .to("#sig-coffee-stream", { opacity: 0, duration: 0.2 }, "-=0.4")
+             .to("#sig-splash", { opacity: 0, duration: 0.2 }, "<")
+             // Whip pops out with strong spring physics
+             .to("#sig-whip", { scale: 1, duration: 0.8, ease: "back.out(2)" }, "-=0.2")
+             // Straw drops straight down into glass
+             .to("#sig-straw", { y: 0, opacity: 1, duration: 0.6, ease: "bounce.out" }, "-=0.4");
+    }
 }
 
 // ==== PAGE: MENU ====
@@ -552,9 +627,9 @@ function initCustomizerLogic() {
     gsap.fromTo(".stagger-group-2 .milk-btn", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.7, ease: "back.out(1.7)" });
 
     const sizes = {
-        small: { path: "M 70 100 L 75 160 Q 80 170 100 170 Q 120 170 125 160 L 130 100 Z", rx: 30, ry: 8, lrx: 26, lry: 6, price: 4.00, yOff: 20 },
-        medium: { path: "M 60 80 L 70 160 Q 75 175 100 175 Q 125 175 130 160 L 140 80 Z", rx: 40, ry: 10, lrx: 35, lry: 8, price: 5.00, yOff: 0 },
-        large: { path: "M 45 50 L 65 170 Q 70 185 100 185 Q 130 185 135 170 L 155 50 Z", rx: 55, ry: 14, lrx: 48, lry: 11, price: 6.00, yOff: -30 }
+        small: { path: "M 70 100 L 75 160 Q 80 170 100 170 Q 120 170 125 160 L 130 100 Z", rx: 30, ry: 8, lrx: 26, lry: 6, price: 4.00, yOff: 20, icedY: 5, iceScale: 0.8, strawD: "M 105 160 L 125 60" },
+        medium: { path: "M 60 80 L 70 160 Q 75 175 100 175 Q 125 175 130 160 L 140 80 Z", rx: 40, ry: 10, lrx: 35, lry: 8, price: 5.00, yOff: 0, icedY: 0, iceScale: 1, strawD: "M 115 150 L 140 30" },
+        large: { path: "M 45 50 L 65 170 Q 70 185 100 185 Q 130 185 135 170 L 155 50 Z", rx: 55, ry: 14, lrx: 48, lry: 11, price: 6.00, yOff: -30, icedY: -30, iceScale: 1.2, strawD: "M 125 160 L 155 0" }
     };
 
     let currentMilkPrice = 0;
@@ -572,9 +647,69 @@ function initCustomizerLogic() {
             gsap.to(cupRim, { attr: { rx: config.rx, ry: config.ry }, y: config.yOff, duration: 0.8, ease: "elastic.out(1, 0.5)" });
             gsap.to(liquid, { attr: { rx: config.lrx, ry: config.lry }, y: config.yOff, duration: 0.8, ease: "elastic.out(1, 0.5)" });
 
+            // Fix 1: Animate iced elements if they are currently visible
+            const isIced = document.querySelector(".temp-btn[data-temp='iced']").classList.contains("active");
+            if (isIced) {
+                gsap.to(".ice-cube", { y: config.icedY, scale: config.iceScale, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+                gsap.to("#iced-straw", { attr: { d: config.strawD }, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+            }
+
             // V3 Anim #22: Neon Glow Pulse
             gsap.fromTo(glow, { opacity: 0.8, scale: 0.8 }, { opacity: 0, scale: 1.5, duration: 1 });
             updatePrice();
+        });
+    });
+
+    // New: Temperature Toggle Logic (Iced Coffee Splash)
+    document.querySelectorAll(".temp-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".temp-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const isIced = btn.dataset.temp === "iced";
+            const config = sizes[document.querySelector(".size-btn.active").dataset.size];
+            
+            if (isIced) {
+                // Morph cup to glass style (Fix 2: Removed thick stroke that caused the ugly line)
+                gsap.to("#cc-body", { fill: "rgba(255, 255, 255, 0.12)", stroke: "none", duration: 0.5 });
+                gsap.to("#cc-rim", { fill: "rgba(255, 255, 255, 0.2)", stroke: "none", duration: 0.5 });
+                
+                // Drop ice cubes (Fix 1: Target Y and Scale based on current size)
+                gsap.to(".ice-cube", { 
+                    y: config.icedY, 
+                    scale: config.iceScale,
+                    opacity: 1, 
+                    duration: 0.6, 
+                    stagger: 0.1, 
+                    ease: "bounce.out" 
+                });
+                
+                // Ripple liquid surface
+                gsap.to(liquid, { 
+                    scaleY: 1.1, 
+                    duration: 0.2, 
+                    yoyo: true, 
+                    repeat: 3, 
+                    delay: 0.3 
+                });
+                
+                // Slide straw
+                gsap.set("#iced-straw", { attr: { d: config.strawD } });
+                gsap.to("#iced-straw", { 
+                    y: 0, 
+                    opacity: 1, 
+                    rotation: 0, 
+                    duration: 0.8, 
+                    ease: "elastic.out(1, 0.5)", 
+                    delay: 0.5 
+                });
+            } else {
+                // Revert to hot cup
+                gsap.to("#cc-body", { fill: "var(--cup-body)", stroke: "none", duration: 0.5 });
+                gsap.to("#cc-rim", { fill: "var(--cup-rim)", stroke: "none", duration: 0.5 });
+                gsap.to(".ice-cube", { y: -300, opacity: 0, duration: 0.4, stagger: 0.05, ease: "power2.in" });
+                gsap.to("#iced-straw", { y: -300, opacity: 0, rotation: 15, duration: 0.4, ease: "power2.in" });
+            }
         });
     });
 

@@ -139,6 +139,57 @@
             <button class="checkout-btn liquid-btn" id="checkout-btn">Checkout</button>
         </div>
         <canvas id="confetti-canvas"></canvas> <!-- Checkout Explosion (Anim #30) -->
+
+        <!-- Premium: Takeout Snap Checkout Animation -->
+        <div class="checkout-takeout-container" id="checkout-takeout-container">
+            <svg id="takeout-cup-svg" viewBox="0 0 200 320" width="200" height="320">
+                <defs>
+                    <linearGradient id="cupGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#EAE5D9" />
+                        <stop offset="40%" stop-color="#FFFFFF" />
+                        <stop offset="80%" stop-color="#F2EDE1" />
+                        <stop offset="100%" stop-color="#D6CEBB" />
+                    </linearGradient>
+                    <linearGradient id="sleeveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#734B24" />
+                        <stop offset="40%" stop-color="#9E7040" />
+                        <stop offset="80%" stop-color="#8B5E34" />
+                        <stop offset="100%" stop-color="#5A3A1C" />
+                    </linearGradient>
+                    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#111" />
+                        <stop offset="40%" stop-color="#333" />
+                        <stop offset="80%" stop-color="#222" />
+                        <stop offset="100%" stop-color="#000" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Shadow Anchor (Bottom) -->
+                <ellipse id="takeout-shadow" cx="100" cy="295" rx="40" ry="6" fill="rgba(0,0,0,0.6)" opacity="0" style="filter:blur(2px);" />
+                
+                <!-- Cup Body (Anchored at y=295) -->
+                <g id="takeout-cup-body">
+                    <path d="M 40 80 L 55 280 Q 60 295 100 295 Q 140 295 145 280 L 160 80 Z" fill="url(#cupGrad)" />
+                    <ellipse cx="100" cy="80" rx="60" ry="15" fill="#EAE5D9" />
+                    <ellipse cx="100" cy="80" rx="55" ry="12" fill="#D6CEBB" />
+                    
+                    <!-- Cardboard Sleeve (Wraps around) -->
+                    <g id="takeout-sleeve">
+                        <path d="M 46 130 L 52 200 Q 55 205 100 205 Q 145 205 148 200 L 154 130 Z" fill="url(#sleeveGrad)" />
+                        <!-- Premium Stamp Checkmark -->
+                        <circle id="takeout-stamp-ring" cx="100" cy="165" r="22" fill="none" stroke="#2E7D32" stroke-width="3" stroke-dasharray="4,2" opacity="0" />
+                        <path id="takeout-checkmark" d="M 88 165 L 96 175 L 115 150" fill="none" stroke="#2E7D32" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                </g>
+
+                <!-- Black Lid -->
+                <g id="takeout-lid">
+                    <path d="M 30 80 L 35 60 Q 40 50 100 50 Q 160 50 165 60 L 170 80 Z" fill="url(#lidGrad)" />
+                    <rect x="25" y="80" width="150" height="15" rx="5" fill="#111" />
+                    <rect x="85" y="45" width="30" height="5" rx="2" fill="#333" />
+                </g>
+            </svg>
+        </div>
     </div>
 
     <!-- Bean Trail Canvas (Anim #2) -->
@@ -236,6 +287,43 @@
                 <div class="showcase-item text-item">
                     <h1 class="mask-reveal">Locally.</h1>
                 </div>
+            </div>
+        </section>
+
+        <!-- Signature Pour Animation -->
+        <section class="signature-section" id="signature-section">
+            <h2 class="signature-title mask-reveal">The Signature Brew</h2>
+            <div class="signature-svg-container">
+                <svg viewBox="0 0 200 250" width="100%" height="100%">
+                    <!-- Background Glass -->
+                    <path d="M 60 70 L 70 220 Q 75 235 100 235 Q 125 235 130 220 L 140 70 Z" fill="rgba(255,255,255,0.08)" />
+                    <ellipse cx="100" cy="70" rx="40" ry="8" fill="rgba(255,255,255,0.12)" />
+                    
+                    <!-- Liquid Fill Masked by Cup -->
+                    <g clip-path="url(#new-glass-clip)">
+                        <clipPath id="new-glass-clip">
+                            <path d="M 60 70 L 70 220 Q 75 235 100 235 Q 125 235 130 220 L 140 70 Z" />
+                        </clipPath>
+                        <rect id="sig-coffee-liquid" x="0" y="240" width="200" height="240" fill="#4A2F1D" />
+                        <ellipse id="sig-coffee-surface" cx="100" cy="240" rx="80" ry="10" fill="#3A1F0D" />
+                    </g>
+                    
+                    <!-- Splash Ripple -->
+                    <ellipse id="sig-splash" cx="100" cy="225" rx="0" ry="0" fill="none" stroke="#4A2F1D" stroke-width="2" opacity="0" />
+                    
+                    <!-- Falling Stream (Simple rectangle that scales from top) -->
+                    <rect id="sig-coffee-stream" x="96" y="0" width="8" height="235" fill="#3A1F0D" rx="4" />
+
+                    <!-- Whipped Cream Swirl -->
+                    <g id="sig-whip">
+                        <path d="M 68 80 Q 80 50 100 55 Q 120 50 132 80 Z" fill="#FFF8EB" />
+                        <path d="M 78 65 Q 90 35 100 40 Q 110 35 122 65 Z" fill="#FFFAF0" />
+                        <path d="M 88 50 Q 95 20 100 20 Q 105 20 112 50 Z" fill="#FFFFFF" />
+                    </g>
+                    
+                    <!-- Straw (sits at inner-right edge of glass) -->
+                    <path id="sig-straw" d="M 112 210 L 128 20" stroke="#2E7D32" stroke-width="6" stroke-linecap="round" />
+                </svg>
             </div>
         </section>
     </main>
