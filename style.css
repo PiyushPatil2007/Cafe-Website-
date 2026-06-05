@@ -1607,15 +1607,7 @@ button {
 }
 
 /* ==== PREMIUM ENHANCEMENTS ==== */
-/* Audio Toggle */
-.audio-toggle {
-    margin-right: 15px;
-    background: transparent;
-    color: var(--text-color);
-}
-.audio-toggle:hover {
-    color: var(--accent);
-}
+
 
 /* Quiz Overlay */
 .quiz-overlay {

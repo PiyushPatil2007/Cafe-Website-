@@ -1141,38 +1141,6 @@ const cupPath = document.getElementById("cc-body");
         gsap.to({ val: parseFloat(priceEl.innerText) }, { val: total, duration: 0.5, onUpdate: function () { priceEl.innerText = this.targets()[0].val.toFixed(2); } });
     }
 }
-//// ==== PREMIUM AUDIO SYSTEM ====
-function initAudioSystem() {
-    const audio = document.getElementById("ambient-audio");
-    const audioBtns = document.querySelectorAll(".audio-toggle");
-    if (!audio) return;
-
-    // Use a reliable Wikimedia Commons ambient audio
-    audio.src = "https://upload.wikimedia.org/wikipedia/commons/c/c2/Restaurant_Ambience.ogg";
-
-    let isPlaying = false;
-    audio.volume = 0.5;
-
-    // We only start audio on explicit button click to avoid browser autoplay issues
-    audioBtns.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (isPlaying) {
-                gsap.to(audio, { volume: 0, duration: 1, onComplete: () => { audio.pause(); isPlaying = false; } });
-                audioBtns.forEach(b => b.style.color = "var(--text-color)");
-            } else {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    gsap.to(audio, { volume: 0.5, duration: 1 });
-                    audioBtns.forEach(b => b.style.color = "var(--accent)");
-                }).catch(err => {
-                    console.error("Audio playback failed:", err);
-                    alert("Audio playback was blocked or failed to load. Please try again.");
-                });
-            }
-        });
-    });
-}
 
 // ==== SEAMLESS PAGE TRANSITIONS (Zero Lag Fetch Router) ====
 function initSPARouter() {
@@ -1320,7 +1288,7 @@ function initQuiz() {
 
 // Setup Global Initializers
 document.addEventListener("DOMContentLoaded", () => {
-    initAudioSystem();
+
     initSPARouter();
     initQuiz();
 });
