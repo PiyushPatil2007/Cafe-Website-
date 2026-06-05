@@ -30,6 +30,7 @@
     <!-- Preloader 4.0: 4-Bean Bouncing Animation -->
     <div class="preloader" id="preloader">
         <div class="preloader-beans" style="display: flex; gap: 20px; align-items: center; justify-content: center; margin-bottom: 30px;">
+
             <!-- Bean 1 -->
             <svg class="loader-bean" viewBox="0 0 200 200" width="60" height="60" style="overflow: visible;">
                 <path d="M 100 10 C 160 10 190 70 190 100 C 190 150 160 190 100 190 C 40 190 10 150 10 100 C 10 50 40 10 100 10 Z" fill="var(--accent)" stroke="#3a2516" stroke-width="8"/>
@@ -92,6 +93,12 @@
             <li><a href="customizer.html" class="elastic-link">Customizer</a></li>
         </ul>
         <div class="nav-actions">
+            <!-- Audio Toggle Button -->
+            <button class="audio-toggle pulse-icon" id="audio-toggle" aria-label="Toggle Audio">
+                <svg viewBox="0 0 24 24" class="theme-icon" id="audio-icon" width="24" height="24">
+                    <path fill="currentColor" id="audio-icon-path" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                </svg>
+            </button>
             <!-- Pulsing Theme Icon (Anim #6 & V3 Fix #9) -->
             <button class="theme-toggle pulse-icon" id="theme-toggle">
                 <svg viewBox="0 0 24 24" class="theme-icon hot-icon" id="hot-icon" style="display:block">
@@ -350,6 +357,50 @@
             <span>↑</span>
         </button>
     </footer>
+
+    <!-- Customizer Liquid Transition SVG Filter -->
+    <svg style="display:none;">
+        <defs>
+            <filter id="liquid-transition">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Ambient Audio Track -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="https://cdn.freesound.org/previews/235/235968_2391024-lq.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Taste Profile Quiz Overlay -->
+    <div class="quiz-overlay" id="quiz-overlay">
+        <div class="quiz-container">
+            <button class="quiz-close" id="quiz-close">×</button>
+            <div class="quiz-step active" id="quiz-step-1">
+                <h2>How do you start your morning?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-btn" data-next="2">Early & Energetic</button>
+                    <button class="quiz-btn" data-next="2">Slow & Steady</button>
+                </div>
+            </div>
+            <div class="quiz-step" id="quiz-step-2">
+                <h2>What's your preferred flavor profile?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-btn" data-next="3" data-profile="light">Fruity & Bright</button>
+                    <button class="quiz-btn" data-next="3" data-profile="dark">Dark & Chocolatey</button>
+                </div>
+            </div>
+            <div class="quiz-step" id="quiz-step-3">
+                <h2>Your Perfect Match</h2>
+                <div class="quiz-result">
+                    <h3 id="quiz-result-title">Midnight Mocha</h3>
+                    <p id="quiz-result-desc">Rich, bold, and perfectly suited for your taste.</p>
+                    <button class="cta-button" id="quiz-add-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

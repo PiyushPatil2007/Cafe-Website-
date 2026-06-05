@@ -61,6 +61,12 @@
             <li><a href="customizer.html" class="elastic-link">Customizer</a></li>
         </ul>
         <div class="nav-actions">
+            <!-- Audio Toggle Button -->
+            <button class="audio-toggle pulse-icon" id="audio-toggle" aria-label="Toggle Audio">
+                <svg viewBox="0 0 24 24" class="theme-icon" id="audio-icon" width="24" height="24">
+                    <path fill="currentColor" id="audio-icon-path" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                </svg>
+            </button>
             <button class="theme-toggle pulse-icon" id="theme-toggle">
                 <svg viewBox="0 0 24 24" class="theme-icon hot-icon" id="hot-icon" style="display:block">
                     <path fill="currentColor"
@@ -345,6 +351,11 @@
             <span>↑</span>
         </button>
     </footer>
+
+    <!-- Ambient Audio Track -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="https://cdn.freesound.org/previews/235/235968_2391024-lq.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
