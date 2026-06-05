@@ -129,6 +129,30 @@ function initNavigation() {
             gsap.to(".curtain-right", { x: "0%", duration: 0.8, ease: "power4.inOut", onComplete: () => window.location.href = target });
         });
     });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinksContainer = document.getElementById('nav-links');
+    if (mobileMenuBtn && navLinksContainer) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            if (mobileMenuBtn.classList.contains('active')) {
+                navLinksContainer.classList.add('nav-active');
+            } else {
+                navLinksContainer.classList.remove('nav-active');
+            }
+        });
+        
+        // Close menu on link click
+        navLinksContainer.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    mobileMenuBtn.classList.remove('active');
+                    navLinksContainer.classList.remove('nav-active');
+                }
+            });
+        });
+    }
 }
 
 // ==== V3 Anim #5: DARK MODE RADIAL WIPE ====
@@ -608,17 +632,36 @@ function initHomeLogic() {
     // Horizontal Scroll (Anim #19 & #21 Momentum)
     const track = document.querySelector(".showcase-track");
     if (track) {
-        gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth), ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-showcase", pin: true, scrub: 1, end: () => "+=" + track.scrollWidth,
-                onUpdate: (self) => {
-                    const skew = self.getVelocity() / -300;
-                    gsap.to(".momentum-skew", { skewX: skew, duration: 0.5 });
+        let mm = gsap.matchMedia();
+        
+        mm.add("(min-width: 769px)", () => {
+            gsap.to(track, {
+                x: () => -(track.scrollWidth - window.innerWidth), ease: "none",
+                scrollTrigger: {
+                    trigger: ".horizontal-showcase", pin: true, scrub: 1, end: () => "+=" + track.scrollWidth,
+                    onUpdate: (self) => {
+                        const skew = self.getVelocity() / -300;
+                        gsap.to(".momentum-skew", { skewX: skew, duration: 0.5 });
+                    }
                 }
-            }
+            });
+            
+            const handleScrollEnd = () => gsap.to(".momentum-skew", { skewX: 0, duration: 0.5 });
+            ScrollTrigger.addEventListener("scrollEnd", handleScrollEnd);
+            
+            return () => {
+                ScrollTrigger.removeEventListener("scrollEnd", handleScrollEnd);
+            };
         });
-        ScrollTrigger.addEventListener("scrollEnd", () => gsap.to(".momentum-skew", { skewX: 0, duration: 0.5 }));
+        
+        mm.add("(max-width: 768px)", () => {
+            gsap.utils.toArray(".showcase-item").forEach(item => {
+                gsap.fromTo(item, 
+                    { y: 50, opacity: 0 }, 
+                    { y: 0, opacity: 1, duration: 0.8, scrollTrigger: { trigger: item, start: "top 80%" } }
+                );
+            });
+        });
     }
 
     // New: Signature Pour Animation (Redesign)
