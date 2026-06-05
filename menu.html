@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Coffee Roasters | Menu</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="dark">
+
+    <div class="noise-overlay"></div>
+
+    <div class="cursor-dot" id="cursor-dot">
+        <svg viewBox="0 0 100 100" width="20" height="20" style="transform: rotate(-45deg);">
+            <path d="M 30 10 C 60 10 90 40 90 70 C 90 90 70 90 70 90 C 40 90 10 60 10 30 C 10 10 30 10 30 10 Z"
+                fill="var(--accent)" />
+            <path d="M 25 25 Q 40 60 75 75" fill="none" stroke="var(--bg-color)" stroke-width="6"
+                stroke-linecap="round" />
+        </svg>
+    </div>
+    <div class="cursor-outline" id="cursor-outline"><span id="cursor-text"></span></div>
+
+    <div class="theme-wipe-circle" id="theme-wipe-circle"></div>
+    <div class="page-curtain curtain-left"></div>
+    <div class="page-curtain curtain-right"></div>
+    <div class="price-drop-anim" id="price-drop-anim">+1</div>
+
+    <div class="toast" id="toast">Added to Cart!</div>
+
+    <!-- Background Orbs & 3D Beans (Anim #14) -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="bg-beans-container" id="bg-beans-container"></div>
+
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="logo glitch-hover">
+            <svg width="45" height="45" viewBox="0 0 100 100" class="logo-svg">
+                <defs>
+                    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="0%" stop-color="#b8976b" />
+                        <stop offset="100%" stop-color="#f5d5aa" />
+                    </linearGradient>
+                </defs>
+                <path d="M50 90 Q 20 90 20 60 C 20 30 50 10 50 10 C 50 10 80 30 80 60 Q 80 90 50 90 Z"
+                    fill="url(#flameGrad)" />
+                <path d="M50 80 Q 35 80 35 60 C 35 45 50 30 50 30 C 50 30 65 45 65 60 Q 65 80 50 80 Z"
+                    fill="var(--bg-color)" />
+            </svg>
+            <span class="logo-text">Lumina.</span>
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <div class="nav-pill" id="nav-pill"></div>
+            <li><a href="index.html" class="elastic-link">Home</a></li>
+            <li><a href="menu.html" class="elastic-link active">Menu</a></li>
+            <li><a href="customizer.html" class="elastic-link">Customizer</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="theme-toggle pulse-icon" id="theme-toggle">
+                <svg viewBox="0 0 24 24" class="theme-icon hot-icon" id="hot-icon" style="display:block">
+                    <path fill="currentColor"
+                        d="M2,21H20V19H2M20,8H18V5H20M20,3H4V13A4,4 0 0,0 8,17H14A4,4 0 0,0 18,13V10H20A2,2 0 0,0 22,8V5C22,3.89 21.1,3 20,3M16,13A2,2 0 0,1 14,15H8A2,2 0 0,1 6,13V5H16Z" />
+                </svg>
+                <svg viewBox="0 0 24 24" class="theme-icon iced-icon" id="iced-icon" style="display:none">
+                    <path fill="currentColor"
+                        d="M3 5V7H21V5M19 9H5L6.6 21H17.4M8.1 11H15.9L15 19H9M9.3 12L9.8 17M14.7 12L14.2 17H14.2M10.8 12V18M13.2 12V18" />
+                </svg>
+            </button>
+            <button class="cart-icon magnetic-btn" id="cart-toggle">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor"
+                        d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
+                </svg>
+                <div class="cart-badge" id="cart-count">0</div>
+            </button>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span class="line"></span><span class="line"></span><span class="line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-panel glass-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Your Order</h2><button class="close-cart" id="close-cart"><svg viewBox="0 0 24 24" width="24"
+                    height="24">
+                    <path fill="currentColor"
+                        d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </svg></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart-state breathing-anim" id="empty-cart-state">
+                <svg viewBox="0 0 24 24" width="80" height="80" style="opacity:0.4"><path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg>
+                <p>Your brew is waiting.</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-controls-global"><button id="clear-cart" class="text-btn">Clear Cart</button></div>
+            <div class="cart-total">Total: $<span id="cart-total-price">0.00</span></div>
+            <button class="checkout-btn liquid-btn" id="checkout-btn">Checkout</button>
+        </div>
+        <canvas id="confetti-canvas"></canvas>
+    </div>
+
+    <!-- Background Parallax Typo -->
+    <div class="menu-bg-text" id="menu-bg-text">LUMINA</div>
+
+    <main class="page-container menu-page-container" id="velocity-container">
+        <div class="menu-header">
+            <!-- V3 Fix #6: Removed Time Logic, added Informative Copy -->
+            <div class="mask-overflow">
+                <h1 class="mask-reveal">Our Signature Roasts</h1>
+            </div>
+            <p class="menu-subtitle">Every bean is ethically sourced, slow-roasted in small batches, and meticulously
+                crafted by our master baristas to unlock a symphony of hidden flavor profiles.</p>
+
+            <div class="menu-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="coffee">Coffee</button>
+                <button class="filter-btn" data-filter="pastry">Pastry</button>
+            </div>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Item 1 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/mocha_coffee_1780595869137.png')">
+                </div>
+                <!-- Tasting notes reveal (Anim #12) -->
+                <div class="tasting-notes">Notes: Dark Cocoa, Hazelnut, Vanilla</div>
+                <div class="card-content">
+                    <h3>Midnight Mocha</h3>
+                    <p class="desc">Dark chocolate infused with rich espresso.</p>
+                    <div class="price-row">
+                        <span class="float-price">$5.50</span>
+                        <button class="add-to-cart magnetic-btn" data-id="1" data-name="Midnight Mocha"
+                            data-price="5.50">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/latte_art_1780595883751.png')">
+                </div>
+                <div class="tasting-notes">Notes: Toasted Almond, Honey</div>
+                <div class="card-content">
+                    <h3>Lumina Latte</h3>
+                    <p class="desc">Silky smooth microfoam and espresso.</p>
+                    <div class="price-row">
+                        <span class="float-price">$4.50</span>
+                        <button class="add-to-cart magnetic-btn" data-id="2" data-name="Lumina Latte"
+                            data-price="4.50">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/cold_brew_1780595896929.png')">
+                </div>
+                <div class="tasting-notes">Notes: Blueberry, Dark Chocolate</div>
+                <div class="card-content">
+                    <h3>Velvet Cold Brew</h3>
+                    <p class="desc">Steeped 24 hours for zero bitterness.</p>
+                    <div class="price-row">
+                        <span class="float-price">$6.00</span>
+                        <button class="add-to-cart magnetic-btn" data-id="3" data-name="Velvet Cold Brew"
+                            data-price="6.00">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/caramel_macchiato_1780595909364.png')">
+                </div>
+                <div class="tasting-notes">Notes: Brown Sugar, Vanilla Bean</div>
+                <div class="card-content">
+                    <h3>Caramel Macchiato</h3>
+                    <p class="desc">Vanilla syrup, steamed milk, espresso, caramel.</p>
+                    <div class="price-row">
+                        <span class="float-price">$5.50</span>
+                        <button class="add-to-cart magnetic-btn" data-id="4" data-name="Caramel Macchiato"
+                            data-price="5.50">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/espresso_shot_1780595922334.png')">
+                </div>
+                <div class="tasting-notes">Notes: Rich Earth, Molasses</div>
+                <div class="card-content">
+                    <h3>Espresso Single</h3>
+                    <p class="desc">A pure, concentrated shot of our house roast.</p>
+                    <div class="price-row">
+                        <span class="float-price">$3.00</span>
+                        <button class="add-to-cart magnetic-btn" data-id="5" data-name="Espresso Single"
+                            data-price="3.00">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 6 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/matcha_latte_1780595935516.png')">
+                </div>
+                <div class="tasting-notes">Notes: Grassy, Sweet Umami</div>
+                <div class="card-content">
+                    <h3>Ceremonial Matcha</h3>
+                    <p class="desc">Earthy matcha whisked with steamed oat milk.</p>
+                    <div class="price-row">
+                        <span class="float-price">$5.75</span>
+                        <button class="add-to-cart magnetic-btn" data-id="6" data-name="Ceremonial Matcha"
+                            data-price="5.75">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 7 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/cortado_1780595950072.png')">
+                </div>
+                <div class="tasting-notes">Notes: Balanced, Citrus Peel</div>
+                <div class="card-content">
+                    <h3>Classic Cortado</h3>
+                    <p class="desc">Equal parts espresso and warm milk.</p>
+                    <div class="price-row">
+                        <span class="float-price">$4.00</span>
+                        <button class="add-to-cart magnetic-btn" data-id="7" data-name="Classic Cortado"
+                            data-price="4.00">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 8 -->
+            <div class="menu-card tilt-card glass-card" data-category="coffee">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/flat_white_1780595963432.png')">
+                </div>
+                <div class="tasting-notes">Notes: Velvet, Sweet Caramel</div>
+                <div class="card-content">
+                    <h3>Flat White</h3>
+                    <p class="desc">Ristretto shots with velvety microfoam.</p>
+                    <div class="price-row">
+                        <span class="float-price">$4.50</span>
+                        <button class="add-to-cart magnetic-btn" data-id="8" data-name="Flat White"
+                            data-price="4.50">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 9 -->
+            <div class="menu-card tilt-card glass-card" data-category="pastry">
+                <div class="card-image hover-view"
+                    style="background-image: url('file:///C:/Users/Piyush%20Patil/.gemini/antigravity-ide/brain/ff046a3f-8ea2-4e1e-b6bf-f0f1ea35eb04/butter_croissant_1780595978278.png')">
+                </div>
+                <div class="tasting-notes">Notes: Flaky, Cultured Butter</div>
+                <div class="card-content">
+                    <h3>Butter Croissant</h3>
+                    <p class="desc">Flaky, golden, baked fresh every morning.</p>
+                    <div class="price-row">
+                        <span class="float-price">$4.00</span>
+                        <button class="add-to-cart magnetic-btn" data-id="9" data-name="Butter Croissant"
+                            data-price="4.00">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-marquee">LUMINA COFFEE ROASTERS • LUMINA COFFEE ROASTERS • </div>
+        <div class="footer-logo-container">
+            <svg width="40" height="40" viewBox="0 0 100 100" class="logo-svg">
+                <path d="M50 90 Q 20 90 20 60 C 20 30 50 10 50 10 C 50 10 80 30 80 60 Q 80 90 50 90 Z"
+                    fill="url(#flameGrad)" />
+                <path d="M50 80 Q 35 80 35 60 C 35 45 50 30 50 30 C 50 30 65 45 65 60 Q 65 80 50 80 Z"
+                    fill="var(--bg-color)" />
+            </svg>
+            <p>&copy; 2026 Lumina Coffee Roasters.</p>
+        </div>
+        <button id="back-to-top" class="magnetic-btn back-to-top">
+            <svg viewBox="0 0 50 50" class="progress-ring">
+                <circle class="progress-ring-circle" stroke="var(--accent)" stroke-width="2" fill="transparent" r="22"
+                    cx="25" cy="25" />
+            </svg>
+            <span>↑</span>
+        </button>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

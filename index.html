@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Coffee Roasters | The Story</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="dark">
+
+    <!-- Cinematic Noise Overlay (Anim #15) -->
+    <div class="noise-overlay"></div>
+
+    <!-- Cursor 3.0 (Anim #1) -->
+    <div class="cursor-dot" id="cursor-dot">
+        <svg viewBox="0 0 100 100" width="20" height="20" style="transform: rotate(-45deg);">
+            <path d="M 30 10 C 60 10 90 40 90 70 C 90 90 70 90 70 90 C 40 90 10 60 10 30 C 10 10 30 10 30 10 Z"
+                fill="var(--accent)" />
+            <path d="M 25 25 Q 40 60 75 75" fill="none" stroke="var(--bg-color)" stroke-width="6"
+                stroke-linecap="round" />
+        </svg>
+    </div>
+    <div class="cursor-outline" id="cursor-outline"><span id="cursor-text"></span></div>
+
+    <!-- Preloader 4.0: 4-Bean Bouncing Animation -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-beans" style="display: flex; gap: 20px; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <!-- Bean 1 -->
+            <svg class="loader-bean" viewBox="0 0 200 200" width="60" height="60" style="overflow: visible;">
+                <path d="M 100 10 C 160 10 190 70 190 100 C 190 150 160 190 100 190 C 40 190 10 150 10 100 C 10 50 40 10 100 10 Z" fill="var(--accent)" stroke="#3a2516" stroke-width="8"/>
+                <path d="M 100 20 Q 80 100 100 180" fill="none" stroke="#3a2516" stroke-width="12" stroke-linecap="round" />
+            </svg>
+            <!-- Bean 2 -->
+            <svg class="loader-bean" viewBox="0 0 200 200" width="60" height="60" style="overflow: visible;">
+                <path d="M 100 10 C 160 10 190 70 190 100 C 190 150 160 190 100 190 C 40 190 10 150 10 100 C 10 50 40 10 100 10 Z" fill="var(--accent)" stroke="#3a2516" stroke-width="8"/>
+                <path d="M 100 20 Q 80 100 100 180" fill="none" stroke="#3a2516" stroke-width="12" stroke-linecap="round" />
+            </svg>
+            <!-- Bean 3 -->
+            <svg class="loader-bean" viewBox="0 0 200 200" width="60" height="60" style="overflow: visible;">
+                <path d="M 100 10 C 160 10 190 70 190 100 C 190 150 160 190 100 190 C 40 190 10 150 10 100 C 10 50 40 10 100 10 Z" fill="var(--accent)" stroke="#3a2516" stroke-width="8"/>
+                <path d="M 100 20 Q 80 100 100 180" fill="none" stroke="#3a2516" stroke-width="12" stroke-linecap="round" />
+            </svg>
+            <!-- Bean 4 -->
+            <svg class="loader-bean" viewBox="0 0 200 200" width="60" height="60" style="overflow: visible;">
+                <path d="M 100 10 C 160 10 190 70 190 100 C 190 150 160 190 100 190 C 40 190 10 150 10 100 C 10 50 40 10 100 10 Z" fill="var(--accent)" stroke="#3a2516" stroke-width="8"/>
+                <path d="M 100 20 Q 80 100 100 180" fill="none" stroke="#3a2516" stroke-width="12" stroke-linecap="round" />
+            </svg>
+        </div>
+        <!-- Pulsing Preloader Text -->
+        <h1 class="preloader-text pulse-text" style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); font-size: 2rem;">Brewing...</h1>
+    </div>
+
+    <!-- Dark Mode Radial Wipe Circle (Anim #5) -->
+    <div class="theme-wipe-circle" id="theme-wipe-circle"></div>
+
+    <!-- Page Transition Curtains (Anim #18) -->
+    <div class="page-curtain curtain-left"></div>
+    <div class="page-curtain curtain-right"></div>
+
+    <!-- Price Drop +1 UI (Anim #28) -->
+    <div class="price-drop-anim" id="price-drop-anim">+1</div>
+
+    <div class="toast" id="toast">Added to Cart!</div>
+
+    <nav class="navbar" id="navbar">
+        <!-- Elite Logo (V3 Fix #2 & Hover Glitch Anim #10) -->
+        <a href="index.html" class="logo glitch-hover">
+            <svg width="45" height="45" viewBox="0 0 100 100" class="logo-svg">
+                <defs>
+                    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="0%" stop-color="#b8976b" />
+                        <stop offset="100%" stop-color="#f5d5aa" />
+                    </linearGradient>
+                </defs>
+                <path d="M50 90 Q 20 90 20 60 C 20 30 50 10 50 10 C 50 10 80 30 80 60 Q 80 90 50 90 Z"
+                    fill="url(#flameGrad)" />
+                <path d="M50 80 Q 35 80 35 60 C 35 45 50 30 50 30 C 50 30 65 45 65 60 Q 65 80 50 80 Z"
+                    fill="var(--bg-color)" />
+            </svg>
+            <span class="logo-text">Lumina.</span>
+        </a>
+        <ul class="nav-links" id="nav-links">
+            <div class="nav-pill" id="nav-pill"></div>
+            <!-- Elastic Nav Links (Anim #3) -->
+            <li><a href="index.html" class="elastic-link active">Home</a></li>
+            <li><a href="menu.html" class="elastic-link">Menu</a></li>
+            <li><a href="customizer.html" class="elastic-link">Customizer</a></li>
+        </ul>
+        <div class="nav-actions">
+            <!-- Pulsing Theme Icon (Anim #6 & V3 Fix #9) -->
+            <button class="theme-toggle pulse-icon" id="theme-toggle">
+                <svg viewBox="0 0 24 24" class="theme-icon hot-icon" id="hot-icon" style="display:block">
+                    <path fill="currentColor"
+                        d="M2,21H20V19H2M20,8H18V5H20M20,3H4V13A4,4 0 0,0 8,17H14A4,4 0 0,0 18,13V10H20A2,2 0 0,0 22,8V5C22,3.89 21.1,3 20,3M16,13A2,2 0 0,1 14,15H8A2,2 0 0,1 6,13V5H16Z" />
+                </svg>
+                <svg viewBox="0 0 24 24" class="theme-icon iced-icon" id="iced-icon" style="display:none">
+                    <path fill="currentColor"
+                        d="M3 5V7H21V5M19 9H5L6.6 21H17.4M8.1 11H15.9L15 19H9M9.3 12L9.8 17M14.7 12L14.2 17H14.2M10.8 12V18M13.2 12V18" />
+                </svg>
+            </button>
+            <button class="cart-icon magnetic-btn" id="cart-toggle">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor"
+                        d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
+                </svg>
+                <div class="cart-badge" id="cart-count">0</div>
+            </button>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span class="line"></span><span class="line"></span><span class="line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Cart Rework (V3 Fix #10) -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-panel glass-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Your Order</h2><button class="close-cart" id="close-cart"><svg viewBox="0 0 24 24" width="24"
+                    height="24">
+                    <path fill="currentColor"
+                        d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </svg></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Breathing Empty State (Anim #29) -->
+            <div class="empty-cart-state breathing-anim" id="empty-cart-state">
+                <svg viewBox="0 0 24 24" width="80" height="80" style="opacity:0.4"><path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/></svg>
+                <p>Your brew is waiting.</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-controls-global"><button id="clear-cart" class="text-btn">Clear Cart</button></div>
+            <div class="cart-total">Total: $<span id="cart-total-price">0.00</span></div>
+            <button class="checkout-btn liquid-btn" id="checkout-btn">Checkout</button>
+        </div>
+        <canvas id="confetti-canvas"></canvas> <!-- Checkout Explosion (Anim #30) -->
+    </div>
+
+    <!-- Bean Trail Canvas (Anim #2) -->
+    <canvas id="bean-trail-canvas"></canvas>
+
+    <main class="page-container" id="velocity-container">
+        <!-- Interactive Hero Particles -->
+        <div id="particle-container"></div>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="mask-overflow">
+                    <!-- Hero Scramble (Anim #7) -->
+                    <h1 class="hero-title scramble-text" data-text="Awaken Your Senses.">Awaken Your Senses.</h1>
+                </div>
+                <div class="mask-overflow">
+                    <p class="hero-subtitle mask-reveal">Small-batch roasted for clarity and sweetness. Sourced
+                        ethically and crafted daily.</p>
+                </div>
+                <!-- Liquid Ripple Button (Anim #13) -->
+                <a href="menu.html" class="cta-button liquid-btn">Explore Menu</a>
+            </div>
+            <div class="hero-graphic">
+                <svg width="500" height="500" viewBox="0 0 200 200" class="hero-cup-svg">
+                    <!-- Hero Vapor Restored (V3 Fix #3) -->
+                    <g class="steam-group" stroke="rgba(255,255,255,0.4)" stroke-width="4" fill="none"
+                        stroke-linecap="round" filter="blur(2px)">
+                        <path class="steam" d="M 80 60 Q 60 30 85 10 T 80 -20" opacity="0" />
+                        <path class="steam" d="M 100 60 Q 120 20 95 -10 T 100 -30" opacity="0" />
+                        <path class="steam" d="M 120 60 Q 100 30 125 10 T 120 -20" opacity="0" />
+                    </g>
+                    <ellipse cx="100" cy="180" rx="60" ry="10" fill="rgba(0,0,0,0.3)" class="cup-shadow" />
+                    <g class="cup-group">
+                        <path d="M 50 80 L 60 160 Q 65 175 100 175 Q 135 175 140 160 L 150 80 Z"
+                            fill="var(--cup-body)" />
+                        <ellipse cx="100" cy="80" rx="50" ry="15" fill="var(--cup-rim)" />
+                        <ellipse cx="100" cy="80" rx="42" ry="12" fill="#4A2F1D" />
+                        <path d="M 148 100 Q 180 90 175 120 Q 170 140 142 145" fill="none" stroke="var(--cup-body)"
+                            stroke-width="12" stroke-linecap="round" />
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Storytelling Scroll Section -->
+        <section class="story-section">
+            <div class="story-text">
+                <div class="mask-overflow">
+                    <h2 class="mask-reveal">The Origin</h2>
+                </div>
+                <p>Great coffee starts at the source. We partner directly with high-altitude farms across Colombia and
+                    Ethiopia, where misty climates yield dense, vibrant beans.</p>
+                <p>By bypassing the middleman, we ensure farmers get paid fairly, and you get the freshest roast
+                    possible.</p>
+            </div>
+            <div class="story-image-wrapper">
+                <div class="story-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&q=80&w=1000')">
+                </div>
+            </div>
+        </section>
+
+        <!-- Horizontal Showcase -->
+        <section class="horizontal-showcase">
+            <div class="showcase-track">
+                <div class="showcase-item text-item">
+                    <h1 class="mask-reveal">Artisanal</h1>
+                    <p class="showcase-info">Small batch roasting unlocks hidden complexities.</p>
+                </div>
+                <!-- Blob Morphing Behind Images (Anim #17) -->
+                <div class="showcase-item img-item momentum-skew">
+                    <svg viewBox="0 0 200 200" class="morph-blob">
+                        <path fill="var(--accent)" opacity="0.1"
+                            d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,80.3,-45.9C88.8,-32.7,92.8,-16.3,92.1,-0.4C91.4,15.5,86,31,77.5,44.2C69,57.4,57.4,68.3,43.3,76.5C29.2,84.7,14.6,90.2,-0.5,91C-15.6,91.8,-31.2,87.9,-44.6,79.4C-58,70.9,-69.2,57.8,-76.8,42.8C-84.4,27.8,-88.4,10.9,-86.6,-5.3C-84.8,-21.5,-77.2,-37,-66.1,-48.5C-55,-60,-40.4,-67.5,-26.2,-74.6C-12,-81.7,1.8,-88.4,16.4,-88C31,-87.6,45.6,-80.1,44.7,-76.4Z"
+                            transform="translate(100 100)" />
+                    </svg>
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800"
+                        alt="Cafe" class="slice-hover">
+                    <div class="hover-info">Ethically Sourced</div>
+                </div>
+                <div class="showcase-item text-item">
+                    <h1 class="mask-reveal">Roasted</h1>
+                    <p class="showcase-info">Every bean treated with masterful precision.</p>
+                </div>
+                <div class="showcase-item img-item momentum-skew">
+                    <svg viewBox="0 0 200 200" class="morph-blob">
+                        <path fill="var(--accent)" opacity="0.1"
+                            d="M39.6,-66.7C53.5,-59.6,68.3,-52,78.2,-39.8C88.1,-27.6,93.1,-10.8,91.6,5.3C90.1,21.4,82.1,36.8,70.4,47.9C58.7,59,43.3,65.8,28.3,71.7C13.3,77.6,-1.3,82.6,-16.1,81.1C-30.9,79.6,-45.9,71.6,-58.5,60.1C-71.1,48.6,-81.3,33.6,-85.4,16.8C-89.5,0,-87.5,-18.6,-78.9,-33.6C-70.3,-48.6,-55.1,-60,-40.4,-67.2C-25.7,-74.4,-12.8,-77.4,0.6,-78.4C14,-79.4,28.1,-78.4,39.6,-66.7Z"
+                            transform="translate(100 100)" />
+                    </svg>
+                    <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=800"
+                        alt="Coffee" class="slice-hover">
+                    <div class="hover-info">Perfect Pour</div>
+                </div>
+                <div class="showcase-item text-item">
+                    <h1 class="mask-reveal">Locally.</h1>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <!-- Kinetic Marquee (Anim #9) -->
+        <div class="footer-marquee">LUMINA COFFEE ROASTERS • LUMINA COFFEE ROASTERS • </div>
+        <div class="footer-logo-container">
+            <svg width="40" height="40" viewBox="0 0 100 100" class="logo-svg">
+                <path d="M50 90 Q 20 90 20 60 C 20 30 50 10 50 10 C 50 10 80 30 80 60 Q 80 90 50 90 Z"
+                    fill="url(#flameGrad)" />
+                <path d="M50 80 Q 35 80 35 60 C 35 45 50 30 50 30 C 50 30 65 45 65 60 Q 65 80 50 80 Z"
+                    fill="var(--bg-color)" />
+            </svg>
+            <p>&copy; 2026 Lumina Coffee Roasters.</p>
+        </div>
+        <!-- Magnetic Progress Back to Top (Specific Fix) -->
+        <button id="back-to-top" class="magnetic-btn back-to-top">
+            <svg viewBox="0 0 50 50" class="progress-ring">
+                <circle class="progress-ring-circle" stroke="var(--accent)" stroke-width="2" fill="transparent" r="22"
+                    cx="25" cy="25" />
+            </svg>
+            <span>↑</span>
+        </button>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Scramble Text Plugin (Free equivalent logic written in main.js) -->
+    <script src="main.js"></script>
+</body>
+
+</html>
